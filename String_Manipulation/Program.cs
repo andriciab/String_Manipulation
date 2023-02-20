@@ -11,73 +11,95 @@ namespace String_Manipulation
             {
                 displayMenu();
 
-                // Get user option
-                char userOption = Convert.ToChar(Console.ReadLine().ToLower());
-
-                if (userOption == 'q')
+                // We use a try-catch block to deal with invalid input from the user
+                try
                 {
-                    return;
+                    // Get user option
+                    char userOption = Convert.ToChar(Console.ReadLine().ToLower());
+
+                    if (userOption == 'q')
+                    {
+                        return;
+                    }
+
+                    // Prompt the user for a string
+                    printColorMessage(ConsoleColor.Yellow, "Please enter a string: ");
+
+                    string input = Console.ReadLine();
+
+                    // Perform operations on the given string until the user decides to stop 
+                    while (true)
+                    {
+                        if (userOption == 'a')
+                        {
+                            input = convertToUpper(input);
+                            printColorMessage(ConsoleColor.Yellow, $"Converted string: ");
+                            Console.WriteLine($"{input}\n");
+                        }
+                        else if (userOption == 'b')
+                        {
+                            input = reverse(input);
+                            printColorMessage(ConsoleColor.Yellow, $"Converted string: ");
+                            Console.WriteLine($"{input}\n");
+                        }
+                        else if (userOption == 'c')
+                        {
+                            Console.WriteLine($"{countVowels(input)} vowels\n");
+                        }
+                        else if (userOption == 'd')
+                        {
+                            Console.WriteLine($"{countWords(input)} words\n");
+                        }
+                        else if (userOption == 'e')
+                        {
+                            input = convertToTitle(input);
+                            printColorMessage(ConsoleColor.Yellow, $"Converted string: ");
+                            Console.WriteLine($"{input}\n");
+                        }
+                        else if (userOption == 'f')
+                        {
+                            string answer = isPalindrome(input) ? $"The string {input} is palindrome\n" : $"The string {input} is not palindrome\n";
+                            Console.WriteLine(answer);
+                        }
+                        else if (userOption == 'g')
+                        {
+                            longestShortest(input);
+                        }
+                        else if (userOption == 'h')
+                        {
+                            mostFrequent(input);
+                        }
+                        else
+                        {
+                            printColorMessage(ConsoleColor.Red, "Invalid option!\n\n");                           
+                        }
+
+                        printColorMessage(ConsoleColor.Yellow,
+                            "Please choose another option (or type \"m\" to go back to menu and enter another string)\n");
+
+                        try
+                        {
+                            userOption = Convert.ToChar(Console.ReadLine().ToLower());
+
+                            if (userOption == 'm')
+                            {
+                                Console.WriteLine("\n");
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            printColorMessage(ConsoleColor.Red, "Please enter a character only!\n\n");
+                        }
+                    }
+                }
+                // If the user types more than one character when choosing the option, print an error message accordingly
+                catch 
+                {
+                    printColorMessage(ConsoleColor.Red, "Please enter a character only!\n\n");
                 }
 
-                // Prompt the user for a string
-                printColorMessage(ConsoleColor.Yellow, "Please enter a string: ");
-                
-                string input = Console.ReadLine();
-
-                // Perform operations on the given string until the user decides to stop 
-                while (true)
-                {
-                    if (userOption == 'a')
-                    {
-                        input = convertToUpper(input);
-                        printColorMessage(ConsoleColor.Yellow, $"Converted string: ");
-                        Console.WriteLine($"{input}\n");
-                    }
-                    else if (userOption == 'b')
-                    {
-                        input = reverse(input);
-                        printColorMessage(ConsoleColor.Yellow, $"Converted string: ");
-                        Console.WriteLine($"{input}\n");
-                    }
-                    else if (userOption == 'c')
-                    {
-                        Console.WriteLine($"{countVowels(input)} vowels\n");
-                    }
-                    else if (userOption == 'd')
-                    {
-                        Console.WriteLine($"{countWords(input)} words\n");
-                    }
-                    else if (userOption == 'e')
-                    {
-                        input = convertToTitle(input);
-                        printColorMessage(ConsoleColor.Yellow, $"Converted string: ");
-                        Console.WriteLine($"{input}\n");
-                    }
-                    else if (userOption == 'f')
-                    {
-                        string answer = isPalindrome(input) ? $"The string {input} is palindrome\n" : $"The string {input} is not palindrome\n";
-                        Console.WriteLine(answer);
-                    }
-                    else if (userOption == 'g')
-                    {
-                        longestShortest(input);
-                    }
-                    else if (userOption == 'h')
-                    {
-                        mostFrequent(input);
-                    }
-
-                    printColorMessage(ConsoleColor.Yellow,
-                        "Please choose another option (or type \"m\" to go back to menu and enter another string)\n");
-
-                    userOption = Convert.ToChar(Console.ReadLine().ToLower());
-
-                    if (userOption == 'm')
-                    {
-                        Console.WriteLine("\n");
-                        break;
-                    }
-                }
+               
             }
         }
 
@@ -92,6 +114,8 @@ namespace String_Manipulation
         {
             string transformedText = "";
 
+            // Build a new string by iterating the given string and
+            // concatenating one character at the time from the end
             for (int i = 0; i < text.Length; i++)
             {
                 transformedText += text[text.Length - i - 1];
@@ -106,6 +130,8 @@ namespace String_Manipulation
 
             for (int i = 0; i < text.Length; i++)
             {
+                // If the index of the current character is bigger than -1 in the "aeiouAEIOU" string,
+                // it means it is a vowel, so we increment the number
                 if ("aeiouAEIOU".IndexOf(text[i]) >= 0)
                 {
                     numVowels++;
@@ -137,6 +163,7 @@ namespace String_Manipulation
         {
             string transformedText = "";
 
+            // Convert the first letter of the first word to uppercase
             transformedText += text[0].ToString().ToUpper();
 
             for (int i = 1; i < text.Length; i++)
@@ -205,7 +232,7 @@ namespace String_Manipulation
             // Split the given string in an array of strings
             string[] splitted = text.Split(' ');
 
-            // If a certain word is already in the dictionary, increment its number of appearances
+            // If a certain word is already in the dictionary, increment its number of appearances.
             // else, add it to the dictionary
             foreach (string word in splitted)
             {
