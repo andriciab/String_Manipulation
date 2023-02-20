@@ -2,7 +2,7 @@
 
 This is a simple console app that performs various string manipulation operations. 
 
-### Screenshot
+### Screenshots
 
 ![](./images/screenshot-1.jpg)
 ![](./images/screenshot-2.jpg)
